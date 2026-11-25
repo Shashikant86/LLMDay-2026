@@ -13,6 +13,8 @@
   --dim: #737373;
   --rule: #d4d4d4;
   --rule-strong: #0a0a0a;
+  --you: #c2410c;
+  --it: #1d4ed8;
   --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", "Segoe UI", system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
@@ -389,10 +391,77 @@ code {
   background: var(--surface);
 }
 
-.era-tab.active {
-  background: var(--ink);
-  border-color: var(--ink);
+.era-tab.you { border-bottom: 4px solid var(--you); }
+.era-tab.it { border-bottom: 4px solid var(--it); }
+
+.era-tab.active.you {
+  background: var(--you);
+  border-color: var(--you);
   color: #ffffff;
+}
+
+.era-tab.active.it {
+  background: var(--it);
+  border-color: var(--it);
+  color: #ffffff;
+}
+
+.era-slope {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+  height: 64px;
+  margin: 8px 0 12px;
+}
+
+.era-slope i {
+  display: block;
+}
+
+.era-slope i.you { background: var(--you); }
+.era-slope i.it { background: var(--it); }
+
+.era-legend {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 4px 0 16px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: -2px;
+}
+
+.swatch.you { background: var(--you); }
+.swatch.it { background: var(--it); }
+
+.who-box {
+  color: #ffffff;
+  padding: 22px;
+}
+
+.who-box.you { background: var(--you); }
+.who-box.it { background: var(--it); }
+
+.who-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.who-line {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .era-tab.active .era-num {
