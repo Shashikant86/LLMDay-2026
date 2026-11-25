@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recursive Prompt Engineering: Who Writes the Next Prompt? — Shashi Jagtap · LLMday London 2026</title>
+  <meta name="description" content="Interactive presentation for LLMday + Prompt Engineering Conference London (Q4 2026) by Shashi Jagtap, Founder of Superagentic AI." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="cinema-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Minimal top chrome -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-left">
+      <span class="event-pill">
+        <span class="live-dot"></span>
+        LLMDAY + PROMPT ENGINEERING LONDON · 2026
+      </span>
+      <span class="venue-meta">Everyman Canary Wharf · Shashi Jagtap</span>
+    </div>
+    <div class="topbar-right">
+      <button class="ctrl-btn" id="timer-btn" title="Start / pause 25m talk timer (T)">
+        <span id="timer-display">25:00</span>
+      </button>
+      <button class="ctrl-btn" id="notes-btn" title="Toggle speaker notes (N)">Notes <kbd>N</kbd></button>
+      <button class="ctrl-btn" id="grid-btn" title="Slide overview (G)">Grid <kbd>G</kbd></button>
+      <button class="ctrl-btn" id="fs-btn" title="Fullscreen cinema mode (F)">Fullscreen <kbd>F</kbd></button>
+      <span class="slide-counter" id="slide-counter">01 / 14</span>
+    </div>
+  </header>
+
+  <!-- Main slide viewport -->
+  <main class="stage" id="stage" tabindex="0" aria-live="polite"></main>
+
+  <!-- Navigation arrows (subtle on hover) -->
+  <button class="nav-arrow nav-prev" id="prev-btn" aria-label="Previous slide">‹</button>
+  <button class="nav-arrow nav-next" id="next-btn" aria-label="Next slide">›</button>
+
+  <!-- Speaker Notes Drawer -->
+  <aside class="notes-drawer" id="notes-drawer" aria-hidden="true">
+    <div class="notes-header">
+      <span class="notes-badge">SPEAKER NOTES</span>
+      <span class="notes-time" id="notes-time"></span>
+      <button class="notes-close" id="notes-close" aria-label="Close speaker notes">✕</button>
+    </div>
+    <div class="notes-body" id="notes-body"></div>
+  </aside>
+
+  <!-- Slide Overview Grid Modal -->
+  <section class="grid-modal" id="grid-modal" aria-hidden="true">
+    <div class="grid-modal-header">
+      <h2>Slide Overview · Press <kbd>Esc</kbd> or <kbd>G</kbd> to return</h2>
+      <button class="notes-close" id="grid-close" aria-label="Close slide overview">✕</button>
+    </div>
+    <div class="grid-cards" id="grid-cards"></div>
+  </section>
+
+  <!-- Bottom progress bar -->
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <script src="slides.js"></script>
+</body>
+</html>
