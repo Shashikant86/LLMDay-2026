@@ -1,6 +1,6 @@
 /* ==========================================================================
-   LLMday + Prompt Engineering Conference London 2026 — Monochrome Print Deck
-   Pure white paper background, solid black ink, zero gradients, zero color noise
+   LLMday + Prompt Engineering Conference London 2026: Monochrome Print Deck
+   Pure white paper background, solid black ink, zero color noise
    ========================================================================== */
 
 :root {
@@ -291,11 +291,12 @@ code {
 }
 
 .card li::before {
-  content: "—";
+  content: "▪";
   position: absolute;
   left: 0;
   color: var(--ink);
-  font-weight: 700;
+  font-size: 12px;
+  top: 2px;
 }
 
 .pill {
