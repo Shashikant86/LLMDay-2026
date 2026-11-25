@@ -20,9 +20,6 @@ python3 -m http.server 8080
 ```
 
 ## Publish on GitHub Pages
-1. Create a GitHub repo (e.g. `recursive-prompt-engineering-london-2026`) and push:
-   ```bash
-   git remote add origin git@github.com:SuperagenticAI/recursive-prompt-engineering-london-2026.git
-   git push -u origin main
-   ```
-2. In GitHub **Settings -> Pages**, set **Source** to **GitHub Actions** (the included `.github/workflows/pages.yml` deploys automatically on every push to `main`).
+The deck is published from [Shashikant86/LLMDay-2026](https://github.com/Shashikant86/LLMDay-2026). `.github/workflows/pages.yml` deploys `main` to GitHub Pages on every push. The Pages source must be **GitHub Actions**.
+
+Live site: https://shashikant86.github.io/LLMDay-2026/

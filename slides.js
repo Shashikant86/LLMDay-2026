@@ -44,8 +44,9 @@ const ERAS = [
     num: "06",
     name: "Recursive Prompting",
     who: "Agents write next prompt in bounds",
-    summary: "Treat prompts and repos as inspectable data. Structure emerges safely at runtime.",
-    limit: "Human defines Goals, Constraints, Verification Criteria, and Stop Conditions."
+    summary: "The prompt is data. The model slices it and calls itself, inside host limits.",
+    kicker: "You still own",
+    limit: "Goals, constraints, verification, and the stop condition."
   }
 ];
 
@@ -67,15 +68,15 @@ const LADDER = [
   {
     level: "L2",
     title: "Symbolic RLM",
-    who: "Root LM slices data & calls llm_query()",
-    detail: "Repo or 100k-line log stays outside the prompt as an RLMContext variable in a sandboxed REPL.",
-    example: `chunks = context.select("src/**/*.py").chunk(12000)\nfindings = llm_query_batched("Find auth checks", chunks)`
+    who: "Root model slices a variable and calls itself",
+    detail: "The prompt is an RLMContext in a REPL. llm_query asks one question about a slice. No tools, no session.",
+    example: `chunks = context.select("src/**/*.py").chunk(12000)\nfindings = llm_query_batched([c.labelled() for c in chunks])`
   },
   {
     level: "L3",
-    title: "Recursive Sub-Agents & Super-Agents",
-    who: "Control plane writes child briefs & spawns workers",
-    detail: "Router-Worker Super-Agents and bounded dynamic workflows spawn isolated children with strict caps.",
+    title: "Recursive Sub-Agents",
+    who: "A router writes a brief and spawns a worker",
+    detail: "This is a new session with its own kernel. The host caps depth, children, and parallelism for the whole tree.",
     example: `workflow("diagnose-ci", max_depth=1, max_children=4)\nstep("slice-logs", context_handle="file:ci.log", fanout=True, mode="read-only")`
   },
   {
@@ -170,7 +171,7 @@ const SLIDES = [
           <div>
             <span class="pill solid">ERA ${e.num} · ${e.name}</span>
             <h3 style="font-size:24px;margin:14px 0 10px;">${e.summary}</h3>
-            <p style="font-size:15px;color:#525252;"><strong>Limit:</strong> ${e.limit}</p>
+            <p style="font-size:15px;color:#525252;"><strong>${e.kicker || "Limit"}:</strong> ${e.limit}</p>
           </div>
           <div style="background:#0a0a0a;color:#ffffff;padding:22px;">
             <div style="font-family:var(--font-mono);font-size:11px;color:#d4d4d4;margin-bottom:8px;letter-spacing:0.08em;">WHO WRITES THE NEXT PROMPT?</div>
@@ -268,7 +269,7 @@ const SLIDES = [
     id: "deepseek-superagent",
     title: "DeepSeek Harness: Super-Agent Architecture",
     time: "8:00 to 10:30",
-    notes: "Walk through DeepSeek Harness (dsh) Super-Agent Architecture: Event Triggers -> Light Router (Control Plane: speaks only when a person must act) -> Isolated Ephemeral Workers (~40% faster p50) + Event-Sourced Storage & Watchdog recovery.",
+    notes: "DeepSeek Harness super-agent, 31 Oct 2026, is a different mechanism from an RLM: one router, isolated workers. Their preliminary scheduling test, five runs, timer workload: system p50 12.4 min versus about 20.4 min for a single session that never delegated. The workers themselves are not 40% faster. Say preliminary, then move on.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">05 · DEEPSEEK HARNESS (dsh) · SUPER-AGENT ARCHITECTURE</div>
@@ -303,7 +304,7 @@ const SLIDES = [
 
             <rect x="672" y="73" width="218" height="48" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.8"/>
             <text x="781" y="94" text-anchor="middle" fill="#0a0a0a" font-size="13" font-weight="800">Worker 2 · Feature PR</text>
-            <text x="781" y="111" text-anchor="middle" fill="#525252" font-size="11.5">Concurrent (~40% faster p50)</text>
+            <text x="781" y="111" text-anchor="middle" fill="#525252" font-size="11.5">Concurrent isolated session</text>
 
             <rect x="672" y="130" width="218" height="48" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.8"/>
             <text x="781" y="151" text-anchor="middle" fill="#0a0a0a" font-size="13" font-weight="800">Worker N · Verification</text>
@@ -317,7 +318,7 @@ const SLIDES = [
             <text x="1012" y="154" text-anchor="middle" fill="#262626" font-size="13.5">Storage / compute split</text>
 
             <text x="560" y="212" text-anchor="middle" fill="#525252" font-size="12.5" font-family="ui-monospace, monospace">
-              DeepSeek Harness (dsh) · Exploring Super-agent Design
+              Preliminary test · p50 12.4 min vs 20.4 min · five runs
             </text>
           </svg>
         </div>
@@ -333,35 +334,32 @@ const SLIDES = [
     id: "rlm",
     title: "Recursive Language Models (RLMs)",
     time: "10:30 to 12:30",
-    notes: "MIT CSAIL's RLM paradigm (Alex Zhang, Tim Kraska, Omar Khattab): treat prompts and repos as data objects in a sandboxed REPL and call llm_query() recursively on exact slices.",
+    notes: "Say this before the code. An ordinary prompt puts the whole input in the window. Quality rots before the window fills. A recursive language model stores the prompt as a Python variable. The root model sees the length and the shape, writes code to slice it, and calls itself on each slice with llm_query. From outside it is still one model: string in, string out. llm_query has no tools and no session. A spawned worker is the next rung, and only when the child needs its own repository. The host owns the budget. Cite Zhang, Kraska, and Khattab, MIT CSAIL, arXiv 2512.24601: more than an order of magnitude past the context window. Their RLM-Qwen3-8B beat base Qwen3-8B by a median of 28% and approached GPT-5 on three long-context tasks. Do not say 100x.",
     render: () => `
       <div class="slide">
-        <div class="eyebrow">06 · RECURSIVE LANGUAGE MODELS (MIT CSAIL)</div>
-        <h2 class="slide-title">Prompts &amp; Repos as <span class="ink-block">Inspectable Objects</span></h2>
-        <div class="grid-2" style="margin-top:24px;">
+        <div class="eyebrow">06 · RECURSIVE LANGUAGE MODELS · ZHANG, KRASKA, KHATTAB</div>
+        <h2 class="slide-title">The prompt is a <span class="ink-block">Python variable</span></h2>
+        <p class="lead">The root model sees the length and the shape, slices the variable, and calls itself with <code>llm_query</code>. Each answer comes back short. From the outside it is still one model.</p>
+        <div class="grid-2">
           <div class="card framed">
-            <span class="pill solid">THE RLM PATTERN</span>
-            <h3 style="margin-top:14px;">Context as Data + Symbolic Recursion</h3>
+            <span class="pill solid">THREE MOVES</span>
             <ul>
-              <li><strong>Lazy mounting:</strong> Measure size without reading files</li>
-              <li><strong>Programmatic slicing:</strong> Filter, grep, and chunk in Python</li>
-              <li><strong>Bounded sub-calls:</strong> <code>llm_query()</code> returns compact handles</li>
-              <li><strong>100x scale:</strong> Small local models punch far above their weight</li>
+              <li><strong>Size, then slice.</strong> The corpus stays out of the window.</li>
+              <li><strong>Call itself on one slice.</strong> No tools and no session.</li>
+              <li><strong>Spawn later.</strong> Only when a child needs its own repository.</li>
             </ul>
           </div>
           <div class="card">
-            <span class="pill">SANDBOXED MONTY REPL</span>
-            <div class="code-box" style="margin-top:14px;"><span class="cmt"># Read-only repo handle; secrets &amp; evaluators masked</span>
-stats = context.stats()            <span class="cmt"># 0 files read yet</span>
-manifests = context.select("pyproject.toml", "package.json")
-auth_chunks = context.select("src/auth/**").chunk(12000)
+            <span class="pill">REPL</span>
+            <div class="code-box" style="margin-top:14px;"><span class="cmt"># paths and sizes, file contents unread</span>
+context.stats()
+auth = context.select("src/auth/**").chunk(12000)
 
-<span class="cmt"># Host-enforced budget &amp; provenance ledger</span>
-risk = llm_query(
-    "Identify auth boundaries and test commands",
-    context=manifests.text()
+finding = llm_query(
+    "Which auth checks are missing?",
+    context=auth[0].labelled()
 )
-<span class="cmt"># Returns RLMResponse(id='sub-1', chars=340)</span></div>
+<span class="cmt"># RLMResponse(id='query-3', chars=340, preview='...')</span></div>
           </div>
         </div>
       </div>
@@ -371,7 +369,7 @@ risk = llm_query(
     id: "ladder",
     title: "The Recursion Ladder",
     time: "12:30 to 14:00",
-    notes: "Click through L0 to L4 to show how recursion evolves from static prompts and simple loops to full recursive agents and runtime-compiled workflows.",
+    notes: "Open on L2 and stay there until the room can say what llm_query is. Then click L3: a spawned worker is a new session, and the host caps the tree. L4 is the product, sq factory describe --rlm. Click L0 and L1 only if someone asks how this differs from a normal tool loop.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">07 · FROM LOOPS TO FULL AGENTS (INTERACTIVE)</div>
@@ -379,7 +377,7 @@ risk = llm_query(
         <div class="ladder-wrap" style="margin-top:22px;">
           <div class="ladder-list" id="ladder-list">
             ${LADDER.map((item, i) => `
-              <button class="ladder-item ${i === 4 ? "active" : ""}" data-ladder="${i}">
+              <button class="ladder-item ${i === 2 ? "active" : ""}" data-ladder="${i}">
                 <span class="ladder-badge">${item.level}</span>
                 <div>
                   <div style="font-size:16px;font-weight:800;">${item.title}</div>
@@ -404,7 +402,7 @@ risk = llm_query(
         `;
       };
       document.querySelectorAll("[data-ladder]").forEach((b) => b.addEventListener("click", () => renderLevel(Number(b.dataset.ladder))));
-      renderLevel(4);
+      renderLevel(2);
     }
   },
   {
@@ -452,7 +450,7 @@ risk = llm_query(
     id: "failure-modes",
     title: "What Goes Wrong Without Boundaries",
     time: "15:30 to 16:45",
-    notes: "Real-world stress tests saw 12,000+ recursive sub-agents triggered from a single prompt when depth caps lived in the prompt instead of the host. And ungated backlog automation turns into a PR 'slop cannon'.",
+    notes: "Cite DeepSeek-Reasonix issue 2272, May 2026. One /autoresearch question spawned 12,744 subagents and 235,681,715 tokens. A nested skill bypassed a depth cap that lived in the tool list. Most tokens were cache hits, so the bill was about $3.40. The scare is the fan-out. Say that if someone asks about cost. The rule stands: the host owns depth and budget.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">09 · FAILURE MODES</div>
@@ -460,9 +458,9 @@ risk = llm_query(
         <div class="grid-2" style="margin-top:26px;">
           <div class="card inverted">
             <span class="pill inverted-pill">FAILURE MODE 1 · RECURSIVE EXPLOSION</span>
-            <h3 style="font-size:38px;margin:16px 0 10px;">12,000+ Sub-Agents</h3>
-            <p>Unconstrained recursive loops bypassed soft prompt depth limits, cascading one prompt into <strong>12,000+ spawned child agents</strong> and hundreds of millions of tokens.</p>
-            <p style="margin-top:14px;"><strong>Rule:</strong> Depth caps and budgets belong in the host runtime, never the prompt.</p>
+            <h3 style="font-size:38px;margin:16px 0 10px;">12,744 Sub-Agents</h3>
+            <p>One question spawned <strong>12,744 child agents</strong> and 236 million tokens. A nested skill walked past a depth cap that lived in the tool list.</p>
+            <p style="margin-top:14px;"><strong>Rule:</strong> The host owns depth and budget. Reasonix #2272.</p>
           </div>
           <div class="card framed">
             <span class="pill solid">FAILURE MODE 2 · THE “SLOP CANNON”</span>
@@ -486,28 +484,28 @@ risk = llm_query(
         <div class="grid-5" style="margin-top:26px;">
           <div class="card framed">
             <span class="pill solid">LAW 1</span>
-            <h3 style="margin-top:12px;font-size:18px;">Masked Context</h3>
-            <p style="font-size:14px;">Mount repos read-only; mask <code>.env</code>, keys, and evaluators.</p>
+            <h3 style="margin-top:12px;font-size:18px;">Read-only Mount</h3>
+            <p style="font-size:14px;">Read-only mount. Name the secrets and checks you exclude.</p>
           </div>
           <div class="card framed">
             <span class="pill solid">LAW 2</span>
-            <h3 style="margin-top:12px;font-size:18px;">Monotonic Caps</h3>
-            <p style="font-size:14px;">Host-owned <code>max_depth</code>, <code>max_children</code>, tokens, and timeouts.</p>
+            <h3 style="margin-top:12px;font-size:18px;">Host Caps</h3>
+            <p style="font-size:14px;">Depth, children, tokens, and time live in the runtime.</p>
           </div>
           <div class="card framed">
             <span class="pill solid">LAW 3</span>
-            <h3 style="margin-top:12px;font-size:18px;">Human Gates</h3>
-            <p style="font-size:14px;">Gate <strong>ambiguity</strong> (Spec) and <strong>delivery</strong> (Ship), not every turn.</p>
+            <h3 style="margin-top:12px;font-size:18px;">Two Gates</h3>
+            <p style="font-size:14px;">Pause for an open spec, and again before ship.</p>
           </div>
           <div class="card framed">
             <span class="pill solid">LAW 4</span>
-            <h3 style="margin-top:12px;font-size:18px;">Hidden Evals</h3>
-            <p style="font-size:14px;">Agents cannot see acceptance probes. Pair with 5-Dim Merge Risk.</p>
+            <h3 style="margin-top:12px;font-size:18px;">Hidden Checks</h3>
+            <p style="font-size:14px;">The agent never sees the acceptance probes.</p>
           </div>
           <div class="card inverted">
             <span class="pill inverted-pill">LAW 5</span>
-            <h3 style="margin-top:12px;font-size:18px;">Hard Stop &amp; Sign</h3>
-            <p style="font-size:14px;">Fail closed on budget or conflict. Require signed human release.</p>
+            <h3 style="margin-top:12px;font-size:18px;">Stop and Sign</h3>
+            <p style="font-size:14px;">Halt on budget or conflict. A human signs the release.</p>
           </div>
         </div>
       </div>
@@ -571,25 +569,25 @@ risk = llm_query(
     id: "demo",
     title: "Live Demo",
     time: "19:30 to 23:00",
-    notes: "Switch to SuperQode (Cmd+Tab). Show On-Demand repo inspection via Monty REPL (~90ms, offline-safe) producing editable YAML + workflow stages, then show bounded recursion config.",
+    notes: "Cmd+Tab to SuperQode. Demo 1 is the RLM context engine: sq factory describe --rlm, Monty, read-only. It drafts a Factory spec and writes nothing until you apply it. Monty can run llm_query. It refuses rlm.run. Do not promise 90ms. Demo 2 is the other recursion, spawn_harness, with the host caps in local-recursive-dynamic.yaml. Say the two names out loud so the room does not merge them.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">12 · LIVE DEMO</div>
-        <h2 class="slide-title">Recursive Prompt Engineering <span class="ink-block">in Practice</span></h2>
+        <h2 class="slide-title">Two recursions, <span class="ink-block">side by side</span></h2>
         <div class="grid-2" style="margin-top:26px;">
           <div class="card framed">
-            <span class="pill solid">DEMO 1 · RUNTIME REPO INSPECTION (RLM)</span>
-            <h3 style="margin-top:14px;">Zero Manual Boilerplate</h3>
+            <span class="pill solid">DEMO 1 · LLM_QUERY IN MONTY</span>
+            <h3 style="margin-top:14px;">Inspect, then draft</h3>
             <ul>
-              <li>Mount repository read-only in <strong>Monty REPL</strong> (~90 ms)</li>
-              <li>Detect stack, test commands, and high-risk paths lazily</li>
-              <li>Select stages, agent roles, skills, and human gates</li>
-              <li>Materialize reviewable, editable YAML before anything runs</li>
+              <li>Read-only repository in the <strong>Monty REPL</strong></li>
+              <li>Detect stack, tests, and risky paths</li>
+              <li>Draft a Factory spec you can edit</li>
+              <li>Nothing runs until you apply it</li>
             </ul>
           </div>
           <div class="card tinted">
-            <span class="pill">DEMO 2 · BOUNDED RECURSION SPEC</span>
-            <h3 style="margin-top:14px;">Host-Enforced Limits</h3>
+            <span class="pill">DEMO 2 · SPAWN_HARNESS CAPS</span>
+            <h3 style="margin-top:14px;">A new session, host limits</h3>
             <div class="code-box" style="margin-top:10px;"><span class="cmt"># local-recursive-dynamic.yaml</span>
 <span class="kw">recursion</span>:
   enabled: true
@@ -626,7 +624,7 @@ risk = llm_query(
             </tr>
             <tr>
               <td>Pastes files, docs, and logs into chat</td>
-              <td>Exposes <strong>Context as Lazy, Masked Data (RLM)</strong></td>
+              <td>Keeps context as <strong>lazy data the model can slice</strong></td>
             </tr>
             <tr>
               <td>Babysits 3 to 5 chat tabs manually</td>
