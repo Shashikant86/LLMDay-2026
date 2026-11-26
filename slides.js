@@ -290,7 +290,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
     id: "recursive-prompting",
     title: "Recursive Prompting",
     time: "11:15 to 12:15",
-    notes: "Name the practice now that the room has the map and the mechanism. Recursive prompting means the system writes the next prompt. You write the goal, the constraints, and the stop. The bottleneck was never the model. Human attention caps at about 3 to 5 concurrent chats, and manual follow-ups throttle the system to typing speed. The loop, the router, and the recursive language model are three ways the next prompt gets written. You show up when depth, budget, or judgment requires you. The next slide is the stricter technique.",
+    notes: "Name the practice now that the room has the map and the mechanism. Recursive prompting means the system writes the next prompt. You write the goal, the constraints, and the stop. The bottleneck was never the model. Human attention caps at about 3 to 5 concurrent chats, and manual follow-ups throttle the system to typing speed. The loop, the router, and the recursive language model are three ways the next prompt gets written. You show up when depth, budget, or judgment requires you. The next slide is the agency analogy. The stricter technique comes after that.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">Practice</div>
@@ -305,9 +305,27 @@ llm_query("Which checks are missing?", context=auth.text())</div>
     `
   },
   {
+    id: "agency",
+    title: "Client and Agency",
+    time: "12:15 to 13:00",
+    notes: "Ask the room: once the statement of work is signed, how many times do you sit in the agency's stand-up? You don't. You are the client. Recursive prompting is the agency. You hand over the outcome, the constraints, and the budget, then you stay out of the loop. The agency writes the next prompt, assembles the team, and spends the budget. You come back for one job: review the work, verify it was delivered, and sign. Do not stretch the metaphor into the techniques. One minute, then the ladder.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">Analogy</div>
+        <h2 class="slide-title">Client and Agency</h2>
+        <p class="lead">You are the client. Recursive prompting is the agency. After the statement of work, you stay out of the loop.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Statement of Work</h3><p>Outcome, constraints, and budget. Then you step out.</p></div>
+          <div class="card inverted"><h3>The Agency</h3><p>It assembles the team, runs the loop, and spends the budget.</p></div>
+          <div class="card framed"><h3>Sign-Off</h3><p>You return to review the work, verify delivery, and sign.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
     id: "ladder",
     title: "Recursion Levels",
-    time: "12:15 to 13:30",
+    time: "13:00 to 14:00",
     notes: "This is the advanced technique. Open on llm_query and stay there until the room can say what it is. Then click Spawn: a new session, and the host caps the tree. Compile is the product, sq factory describe --rlm. Click Prompt and Loop only if someone asks how this differs from a normal tool loop. From here: factory designs, operating constraints, the approval gate, then the demo.",
     render: () => `
       <div class="slide">
