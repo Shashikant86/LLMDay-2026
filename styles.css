@@ -326,6 +326,23 @@ code {
   color: var(--ink);
 }
 
+.site-link {
+  display: inline-block;
+  margin: 2px 0 22px;
+  font-family: var(--font-mono);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.site-link:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+
 .code-box {
   font-family: var(--font-mono);
   font-size: 14px;

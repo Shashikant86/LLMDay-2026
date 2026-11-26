@@ -476,12 +476,13 @@ llm_query("Which checks are missing?", context=auth.text())</div>
     id: "superqode",
     title: "SuperQode",
     time: "24:05 to 24:35",
-    notes: "One pointer, not a pitch. SuperQode is where this work lives: superqode.dev. Name four things they can look up, and stop. The superagent architecture is the harness around the model. Recursive agents let a child look at one slice. Recursive prompting is the system writing the next prompt. Software factories are how you design the run, measure it, and sign it. Do not install anything. Do not demo again. Company links, including GitHub, stay on the next slide.",
+    notes: "This slide is only SuperQode. Say it is a research-focused tool, then point at the link and read superqode.dev out loud. What we do there: the superagent architecture, the harness around the model. Recursive agents, a child looks at one slice. Recursive prompting, the system writes the next prompt. Software factories, design the run, measure it, and sign it. Do not install anything. Company links, including GitHub, stay on the next slide.",
     render: () => `
       <div class="slide">
-        <div class="eyebrow">superqode.dev</div>
+        <div class="eyebrow">Research-focused tool</div>
         <h2 class="slide-title">SuperQode</h2>
-        <p class="lead">Where to look next. The harness, the agent, the prompt, and the factory.</p>
+        <p class="lead">Where we build the harness for recursive agents, recursive prompting, and software factories.</p>
+        <a class="site-link" href="https://superqode.dev" target="_blank" rel="noopener">superqode.dev</a>
         <div class="grid-2">
           <div class="card framed"><h3>Architecture</h3><p>A superagent is the harness around the model.</p></div>
           <div class="card framed"><h3>Recursive agents</h3><p>A child looks at one slice of the work.</p></div>
