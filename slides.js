@@ -5,11 +5,11 @@
    ========================================================================== */
 
 const ERAS = [
-  { short: "Manual", side: "you", who: "You", line: "You write every turn." },
+  { short: "Prompt", side: "you", who: "You", line: "You write every turn." },
   { short: "Context", side: "you", who: "You", line: "You still choose what goes in." },
+  { short: "Harness", side: "you", who: "You", line: "You set the limits before it runs." },
   { short: "Loop", side: "it", who: "Loop", line: "The loop writes the next action." },
-  { short: "Harness", side: "it", who: "Harness", line: "The scaffold holds the limits." },
-  { short: "Agents", side: "it", who: "Router", line: "A router writes the worker brief." },
+  { short: "Swarms", side: "it", who: "Router", line: "A router writes the worker brief." },
   { short: "Recursive", side: "it", who: "Model", line: "The model slices the prompt and calls itself." }
 ];
 
@@ -45,8 +45,8 @@ const SLIDES = [
   {
     id: "title",
     title: "Recursive Prompt Engineering",
-    time: "0:00 to 1:00",
-    notes: "Keep the opening crisp and calm. Ask the room: who has spent an afternoon babysitting a coding agent turn by turn? For three years, YOU wrote the next prompt. Today we ask: what happens when agents write the next prompt safely?",
+    time: "0:00 to 0:45",
+    notes: "Do not open on the thesis. The title is the destination. Tell the room we walk the field first, so the term has somewhere to land: prompt engineering, context engineering, harness engineering, loop engineering, agent swarms. Then one slide for the recursive language model, then the practice of recursive prompting, then the stricter techniques. Ask who has written a prompt today only if the room is cold. Stay under a minute.",
     render: () => `
       <div class="slide" style="max-width:980px;">
         <div class="eyebrow">LLMDAY + PROMPT ENGINEERING LONDON</div>
@@ -63,34 +63,103 @@ const SLIDES = [
     `
   },
   {
-    id: "bottleneck",
-    title: "The bottleneck is attention",
-    time: "1:00 to 2:30",
-    notes: "Models are no longer the main bottleneck. Human attention caps out at 3 to 5 concurrent chat sessions. Manual follow-ups throttle autonomous systems down to human typing speed.",
+    id: "prompt-engineering",
+    title: "Prompt engineering",
+    time: "0:45 to 2:00",
+    notes: "The original craft. You sit in the chat and write every turn: who the model is, the one job, and the shape of the answer. Examples when the form matters. The only point of this slide: the human held the pen. Stay under a minute.",
     render: () => `
       <div class="slide">
-        <h2 class="slide-title">The bottleneck is attention</h2>
-        <div class="grid-2" style="margin-top:28px;">
-          <div class="card">
-            <h3>Turns</h3>
-            <p>You write every follow-up by hand.</p>
-          </div>
-          <div class="card inverted">
-            <h3>Stop</h3>
-            <p>The system speaks up only when you must act.</p>
-          </div>
+        <div class="eyebrow">The field · 01</div>
+        <h2 class="slide-title">Prompt engineering</h2>
+        <p class="lead">You write the instruction. Every turn is yours.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Role</h3><p>Who the model is for this turn.</p></div>
+          <div class="card framed"><h3>Task</h3><p>The one job, in one sentence.</p></div>
+          <div class="card framed"><h3>Form</h3><p>Examples, and the shape of the answer.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "context-engineering",
+    title: "Context engineering",
+    time: "2:00 to 3:15",
+    notes: "The prompt stopped being one sentence. You choose the files, the tools, and what is allowed to persist. You still write the instruction, and you still choose the window. If someone says RAG: yes, retrieval is context engineering. So is the system prompt, the tool list, and the memory file. Do not teach context rot here. That failure comes after the map.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The field · 02</div>
+        <h2 class="slide-title">Context engineering</h2>
+        <p class="lead">The prompt is no longer one sentence. You choose what enters the window.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Files</h3><p>You choose the corpus.</p></div>
+          <div class="card framed"><h3>Tools</h3><p>You choose what it can call.</p></div>
+          <div class="card framed"><h3>Memory</h3><p>You choose what persists.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "harness",
+    title: "Harness engineering",
+    time: "3:15 to 4:30",
+    notes: "Before the model is allowed to act, you build the scaffold. Sandbox so the checkout stays isolated. Memory as handles and short summaries, not dumps of the repo. Budget so depth, time, and tokens live in the host, not in the model's manners. The harness does not write the next prompt. It holds the limits. That is why it comes before the loop.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The field · 03</div>
+        <h2 class="slide-title">Harness engineering</h2>
+        <p class="lead">The model lives inside a scaffold. You set the limits before it runs.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Sandbox</h3><p>The checkout stays isolated.</p></div>
+          <div class="card framed"><h3>Handles</h3><p>Short summaries, not dumps of the repo.</p></div>
+          <div class="card framed"><h3>Budget</h3><p>Depth, time, and tokens live in the host.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "loop-engineering",
+    title: "Loop engineering",
+    time: "4:30 to 5:45",
+    notes: "Now the pen moves. One window. The model returns an action, the tool result is appended, and the same history is sent back. You stop typing every follow-up. You still own the goal and the stop. Read the three lines if the room is technical. If not, the sentence is enough: the loop writes the next action.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The field · 04</div>
+        <h2 class="slide-title">Loop engineering</h2>
+        <p class="lead">One window. The loop writes the next action. You own the goal and the stop.</p>
+        <div class="card">
+          <div class="code-box">while not done:
+    action = llm(history)
+    history.append(run_tool(action))</div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "agent-swarms",
+    title: "Agent swarms",
+    time: "5:45 to 7:15",
+    notes: "A swarm is not a bigger loop. Events arrive. One router writes a brief. Workers run in isolated sessions and do not speak to you. Concrete case, say it as preliminary and move on. DeepSeek Harness super-agent, 31 Oct 2026. Their scheduling test, five runs, timer workload: system p50 12.4 min versus about 20.4 min for a single session that never delegated. The workers themselves are not 40% faster. One router, isolated workers. This is a different mechanism from a recursive language model. That concept is two slides away.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The field · 05</div>
+        <h2 class="slide-title">Agent swarms</h2>
+        <p class="lead">One router writes the brief. Workers do not speak to you.</p>
+        <div class="grid-3">
+          <div class="card"><h3>Events</h3><p>Issues, CI, and chat arrive here.</p></div>
+          <div class="card inverted"><h3>Router</h3><p>One voice. It writes the briefs.</p></div>
+          <div class="card"><h3>Workers</h3><p>Isolated sessions. They do not speak to you.</p></div>
         </div>
       </div>
     `
   },
   {
     id: "eras",
-    title: "Six eras",
-    time: "2:30 to 5:00",
-    notes: "Click left to right. Amber means you write the prompt. Blue means the system writes the next one. The slope is Manual, Context, Loop, Harness, Agents, Recursive. Loop comes before agents. From the loop on, you stop writing every turn. You still own the goal and the stop.",
+    title: "The field so far",
+    time: "7:15 to 8:15",
+    notes: "Recap only. Do not re-teach. Amber means you. Blue means the system. Click Prompt, Context, Harness: you hold the pen or the scaffold. Click Loop, then Swarms: the system writes the next action or the worker brief. Land on Recursive and do not explain it. Say that this is the next slide. The slope is the field we just walked.",
     render: () => `
       <div class="slide">
-        <h2 class="slide-title">Six eras</h2>
+        <h2 class="slide-title">The field so far</h2>
         <div class="era-legend">
           <span><i class="swatch you"></i>You</span>
           <span><i class="swatch it"></i>System</span>
@@ -128,8 +197,8 @@ const SLIDES = [
   {
     id: "context-rot",
     title: "Context rot",
-    time: "5:00 to 6:30",
-    notes: "Click 12k, 96k, 420k tokens. Adding more tools and logs degrades reasoning and burns cost. Context engineering fails when everything is stuffed into one flat prompt.",
+    time: "8:15 to 9:15",
+    notes: "This is the limit of context engineering, and the reason for the next slide. Click Small, then Noisy, then Full. Adding tools and logs degrades reasoning and burns cost. The flat prompt fails before the window is full. Say: so keep the corpus outside the prompt. Do not explain how yet.",
     render: () => `
       <div class="slide">
         <h2 class="slide-title">Context rot</h2>
@@ -162,47 +231,15 @@ const SLIDES = [
     }
   },
   {
-    id: "harness",
-    title: "Harness",
-    time: "6:30 to 8:00",
-    notes: "Language models live inside scaffolds. The harness owns execution isolation, context handles, permissions, and budgets so autonomy stays safe.",
-    render: () => `
-      <div class="slide">
-        <h2 class="slide-title">Harness</h2>
-        <p class="lead">The model lives inside a scaffold.</p>
-        <div class="grid-3">
-          <div class="card framed"><h3>Sandbox</h3><p>The checkout stays isolated.</p></div>
-          <div class="card framed"><h3>Memory</h3><p>Handles and short summaries, not dumps.</p></div>
-          <div class="card framed"><h3>Budget</h3><p>Depth, time, and tokens live in the host.</p></div>
-        </div>
-      </div>
-    `
-  },
-  {
-    id: "deepseek-superagent",
-    title: "Router and workers",
-    time: "8:00 to 10:30",
-    notes: "DeepSeek Harness super-agent, 31 Oct 2026, is a different mechanism from an RLM: one router, isolated workers. Their preliminary scheduling test, five runs, timer workload: system p50 12.4 min versus about 20.4 min for a single session that never delegated. The workers themselves are not 40% faster. Say preliminary, then move on.",
-    render: () => `
-      <div class="slide">
-        <h2 class="slide-title">Router and workers</h2>
-        <div class="grid-3" style="margin-top:28px;">
-          <div class="card"><h3>Events</h3><p>Issues, CI, and chat arrive here.</p></div>
-          <div class="card inverted"><h3>Router</h3><p>One voice. It writes the briefs.</p></div>
-          <div class="card"><h3>Workers</h3><p>Isolated sessions. They do not speak to you.</p></div>
-        </div>
-      </div>
-    `
-  },
-  {
     id: "rlm",
     title: "The prompt is a variable",
-    time: "10:30 to 12:30",
-    notes: "Say this before the code. An ordinary prompt puts the whole input in the window. Quality rots before the window fills. A recursive language model stores the prompt as a Python variable. The root model sees the length and the shape, writes code to slice it, and calls itself on each slice with llm_query. From outside it is still one model: string in, string out. llm_query has no tools and no session. A spawned worker is the next rung, and only when the child needs its own repository. The host owns the budget. Cite Zhang, Kraska, and Khattab, MIT CSAIL, arXiv 2512.24601: more than an order of magnitude past the context window. Their RLM-Qwen3-8B beat base Qwen3-8B by a median of 28% and approached GPT-5 on three long-context tasks. Do not say 100x.",
+    time: "9:15 to 11:00",
+    notes: "One slide for the concept. The practice has its own slide after this. Say this before the code. An ordinary prompt puts the whole input in the window. Quality rots before the window fills. A recursive language model stores the prompt as a Python variable. The root model sees the length and the shape, writes code to slice it, and calls itself on each slice with llm_query. From outside it is still one model: string in, string out. llm_query has no tools and no session. A spawned worker is the next rung, and only when the child needs its own repository. The host owns the budget. Cite Zhang, Kraska, and Khattab, MIT CSAIL, arXiv 2512.24601: more than an order of magnitude past the context window. Their RLM-Qwen3-8B beat base Qwen3-8B by a median of 28% and approached GPT-5 on three long-context tasks. Do not say 100x.",
     render: () => `
       <div class="slide">
+        <div class="eyebrow">The concept</div>
         <h2 class="slide-title">The prompt is a variable</h2>
-        <p class="lead">The root model sees the shape, slices it, and calls itself. From outside it is still one model.</p>
+        <p class="lead">A recursive language model sees the shape, slices it, and calls itself. From outside it is still one model.</p>
         <div class="card">
           <div class="code-box">context.stats()
 auth = context.select("src/auth/**")
@@ -212,13 +249,32 @@ llm_query("Which checks are missing?", context=auth.text())</div>
     `
   },
   {
-    id: "ladder",
-    title: "The recursion ladder",
-    time: "12:30 to 14:00",
-    notes: "Open on L2 and stay there until the room can say what llm_query is. Then click L3: a spawned worker is a new session, and the host caps the tree. L4 is the product, sq factory describe --rlm. Click L0 and L1 only if someone asks how this differs from a normal tool loop.",
+    id: "recursive-prompting",
+    title: "Recursive prompting",
+    time: "11:00 to 12:15",
+    notes: "Name the practice now that the room has the map and the mechanism. Recursive prompting means the system writes the next prompt. You write the goal, the constraints, and the stop. The bottleneck was never the model. Human attention caps at about 3 to 5 concurrent chats, and manual follow-ups throttle the system to typing speed. The loop, the router, and the recursive language model are three ways the next prompt gets written. You show up when depth, budget, or judgment requires you. The next slide is the stricter technique.",
     render: () => `
       <div class="slide">
-        <h2 class="slide-title">The recursion ladder</h2>
+        <div class="eyebrow">The practice</div>
+        <h2 class="slide-title">Recursive prompting</h2>
+        <p class="lead">The system writes the next prompt. You return only when it must stop.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Goal</h3><p>You name the outcome and the constraints.</p></div>
+          <div class="card framed"><h3>Next prompt</h3><p>The loop, the router, or the model writes it.</p></div>
+          <div class="card inverted"><h3>Your attention</h3><p>Three to five chats is the human ceiling.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "ladder",
+    title: "Advanced recursive prompting",
+    time: "12:15 to 13:45",
+    notes: "This is the advanced technique. Open on llm_query and stay there until the room can say what it is. Then click Spawn: a new session, and the host caps the tree. Compile is the product, sq factory describe --rlm. Click Prompt and Loop only if someone asks how this differs from a normal tool loop. From here the talk is the production argument: factories, the failure, the five rules, the pause, then the demo.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The technique</div>
+        <h2 class="slide-title">Advanced recursive prompting</h2>
         <div class="ladder-wrap" style="margin-top:22px;">
           <div class="ladder-list" id="ladder-list">
             ${LADDER.map((item, i) => `
@@ -247,7 +303,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "swarms-vs-factories",
     title: "Swarms and factories",
-    time: "14:00 to 15:30",
+    time: "13:45 to 14:45",
     notes: "Swarms offer dynamic runtime decomposition; Software Factories offer isolation, repeatability, and verification. Recursive Prompt Engineering bridges both.",
     render: () => `
       <div class="slide">
@@ -263,7 +319,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "failure-modes",
     title: "When nobody owns the stop",
-    time: "15:30 to 16:45",
+    time: "14:45 to 15:45",
     notes: "Cite DeepSeek-Reasonix issue 2272, May 2026. One /autoresearch question spawned 12,744 subagents and 235,681,715 tokens. A nested skill bypassed a depth cap that lived in the tool list. Most tokens were cache hits, so the bill was about $3.40. The scare is the fan-out. Say that if someone asks about cost. The rule stands: the host owns depth and budget.",
     render: () => `
       <div class="slide">
@@ -284,7 +340,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "five-laws",
     title: "Five rules",
-    time: "16:45 to 18:30",
+    time: "15:45 to 17:00",
     notes: "Practical architecture checklist for taking recursive prompt engineering into production tomorrow morning.",
     render: () => `
       <div class="slide">
@@ -302,7 +358,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "interactive-gates",
     title: "When should it pause?",
-    time: "18:30 to 19:30",
+    time: "17:00 to 18:00",
     notes: "Toggle live between Ambiguous Feature and Clear Bug Fix to show typed Triage routing: pause before coding when intent is open; take the fast path when scope is clear.",
     render: () => `
       <div class="slide">
@@ -347,7 +403,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "demo",
     title: "Two recursions",
-    time: "19:30 to 23:00",
+    time: "18:00 to 23:00",
     notes: "Cmd+Tab to SuperQode. Demo 1 is the RLM context engine: sq factory describe --rlm, Monty, read-only. It drafts a Factory spec and writes nothing until you apply it. Monty can run llm_query. It refuses rlm.run. Do not promise 90ms. Demo 2 is the other recursion, spawn_harness, with the host caps in local-recursive-dynamic.yaml. Say the two names out loud so the room does not merge them.",
     render: () => `
       <div class="slide">
