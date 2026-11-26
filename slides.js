@@ -403,7 +403,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "demo",
     title: "Two recursions",
-    time: "18:00 to 23:00",
+    time: "18:00 to 22:30",
     notes: "Cmd+Tab to SuperQode. Demo 1 is the RLM context engine: sq factory describe --rlm, Monty, read-only. It drafts a Factory spec and writes nothing until you apply it. Monty can run llm_query. It refuses rlm.run. Do not promise 90ms. Demo 2 is the other recursion, spawn_harness, with the host caps in local-recursive-dynamic.yaml. Say the two names out loud so the room does not merge them.",
     render: () => `
       <div class="slide">
@@ -424,7 +424,7 @@ llm_query("Which checks are missing?", context=auth.text())</div>
   {
     id: "new-job",
     title: "The new job",
-    time: "23:00 to 24:15",
+    time: "22:30 to 23:20",
     notes: "Pause 5 seconds for audience photos. Summarize the mindset shift clearly: you design goals, constraints, verification criteria, and stop conditions.",
     render: () => `
       <div class="slide">
@@ -455,10 +455,47 @@ llm_query("Which checks are missing?", context=auth.text())</div>
     `
   },
   {
+    id: "still-early",
+    title: "We are so early",
+    time: "23:20 to 24:05",
+    notes: "This one is yours. Do not read it. The software lifecycle is changing. Software factories and agent swarms are the names showing up for automating that lifecycle. Say that we are still learning, and that we are early. No product names on this slide. SuperQode is next, then questions.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">The space</div>
+        <h2 class="slide-title">We are so early</h2>
+        <p class="lead">The software lifecycle is changing. Factories and swarms are starting to automate it.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Factories</h3><p>Specify the work, run it, and check it.</p></div>
+          <div class="card framed"><h3>Swarms</h3><p>Agents split the work and write the next brief.</p></div>
+          <div class="card inverted"><h3>Still learning</h3><p>None of this is settled. We are early.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "superqode",
+    title: "SuperQode",
+    time: "24:05 to 24:35",
+    notes: "One pointer, not a pitch. SuperQode is where this work lives: superqode.dev. Name four things they can look up, and stop. The superagent architecture is the harness around the model. Recursive agents let a child look at one slice. Recursive prompting is the system writing the next prompt. Software factories are how you design the run, measure it, and sign it. Do not install anything. Do not demo again. Company links, including GitHub, stay on the next slide.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">superqode.dev</div>
+        <h2 class="slide-title">SuperQode</h2>
+        <p class="lead">Where to look next. The harness, the agent, the prompt, and the factory.</p>
+        <div class="grid-2">
+          <div class="card framed"><h3>Architecture</h3><p>A superagent is the harness around the model.</p></div>
+          <div class="card framed"><h3>Recursive agents</h3><p>A child looks at one slice of the work.</p></div>
+          <div class="card framed"><h3>Recursive prompting</h3><p>The system writes the next prompt.</p></div>
+          <div class="card framed"><h3>Software factories</h3><p>Design the run, measure it, and sign it.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
     id: "qa",
     title: "Questions",
-    time: "24:15 to 25:00",
-    notes: "Clean, non-promotional closing slide. Thank LLMday London and open the floor for questions.",
+    time: "24:35 to 25:00",
+    notes: "Thank LLMday London and open the floor. Leave the links up: Superagentic AI, github.com/SuperagenticAI, and super-agentic.ai. SuperQode was the previous slide.",
     render: () => `
       <div class="slide" style="max-width:960px;">
         <div class="eyebrow">LLMDAY LONDON</div>
