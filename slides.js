@@ -549,7 +549,7 @@ function go(index) {
   if (typeof slide.mount === "function") {
     slide.mount();
   }
-  counterEl.textContent = "";
+  if (counterEl) counterEl.textContent = "";
   progressEl.style.width = `${((current + 1) / SLIDES.length) * 100}%`;
   notesBody.textContent = slide.notes;
   notesTime.textContent = slide.time;
@@ -563,7 +563,7 @@ function prev() { if (current > 0) go(current - 1); }
 function toggleNotes() {
   const open = notesDrawer.classList.toggle("open");
   notesDrawer.setAttribute("aria-hidden", String(!open));
-  notesBtn.classList.toggle("active", open);
+  notesBtn?.classList.toggle("active", open);
 }
 
 function toggleGrid(force) {
@@ -608,13 +608,14 @@ document.addEventListener("fullscreenchange", () => {
 });
 
 function toggleTimer() {
+  if (!timerDisplay) return;
   if (timerInterval) {
     clearInterval(timerInterval);
     timerInterval = null;
-    timerBtn.classList.remove("active");
+    timerBtn?.classList.remove("active");
     return;
   }
-  timerBtn.classList.add("active");
+  timerBtn?.classList.add("active");
   timerInterval = setInterval(() => {
     timerSeconds = Math.max(0, timerSeconds - 1);
     timerDisplay.textContent = `${pad(Math.floor(timerSeconds / 60))}:${pad(timerSeconds % 60)}`;
@@ -623,12 +624,12 @@ function toggleTimer() {
 
 document.getElementById("prev-btn").addEventListener("click", prev);
 document.getElementById("next-btn").addEventListener("click", next);
-notesBtn.addEventListener("click", toggleNotes);
+notesBtn?.addEventListener("click", toggleNotes);
 document.getElementById("notes-close").addEventListener("click", toggleNotes);
-document.getElementById("grid-btn").addEventListener("click", () => toggleGrid());
+document.getElementById("grid-btn")?.addEventListener("click", () => toggleGrid());
 document.getElementById("grid-close").addEventListener("click", () => toggleGrid(false));
-document.getElementById("fs-btn").addEventListener("click", toggleFullscreen);
-timerBtn.addEventListener("click", toggleTimer);
+document.getElementById("fs-btn")?.addEventListener("click", toggleFullscreen);
+timerBtn?.addEventListener("click", toggleTimer);
 
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
