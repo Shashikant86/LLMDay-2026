@@ -227,6 +227,18 @@ code {
   gap: 14px;
 }
 
+.grid-5 .card {
+  padding: 16px 14px;
+}
+
+.grid-5 .card h3 {
+  font-size: 16px;
+}
+
+.grid-5 .card p {
+  font-size: 14px;
+}
+
 .card {
   background: #ffffff;
   border: 1.5px solid var(--rule);
@@ -339,6 +351,32 @@ code {
 }
 
 .site-link:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+a.text-link {
+  display: block;
+  width: fit-content;
+  margin: 0 0 22px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-underline-offset: 4px;
+}
+
+a.text-link:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+a.pill {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+a.pill:hover {
   background: var(--ink);
   color: #ffffff;
 }
