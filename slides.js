@@ -47,18 +47,33 @@ const SLIDES = [
     id: "title",
     title: "Recursive Prompt Engineering",
     time: "0:00 to 0:45",
-    notes: "Do not open on the thesis. The title is the destination. Walk the field first: prompt engineering, context engineering, harness engineering, loop engineering, agent swarms, then the software factory. Then context degradation, the Recursive Language Models paper, the call pattern, then recursive prompting and the stricter techniques. Ask who has written a prompt today only if the room is cold. Stay under a minute.",
+    notes: "Do not introduce yourself here. The title is the destination. Your name is the next slide. Then walk the field: prompt engineering, context engineering, harness engineering, loop engineering, agent swarms, then the software factory. Then context degradation, the Recursive Language Models paper, the call pattern, then recursive prompting and the stricter techniques. Stay under a minute.",
     render: () => `
       <div class="slide" style="max-width:980px;">
-        <div class="eyebrow">LLMDAY + PROMPT ENGINEERING LONDON</div>
+        <div class="eyebrow">LLMDAY + PROMPT ENGINEERING CONFERENCE LONDON</div>
         <h1 class="hero-title" style="margin-top:14px;margin-bottom:28px;">
           Recursive Prompt Engineering:<br/>
           <span class="ink-block">Who Writes the Next Prompt?</span>
         </h1>
-        <div style="border-top:2px solid #0a0a0a;padding-top:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
-          <span class="pill solid">Shashi Jagtap</span>
-          <span class="pill">Founder, Superagentic AI</span>
+        <div style="border-top:2px solid #0a0a0a;padding-top:22px;">
           <span class="pill">Everyman Canary Wharf</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "speaker",
+    title: "Shashi Jagtap",
+    time: "0:45 to 1:15",
+    notes: "Name, role, then the shift. Founder of Superagentic AI. Ex-Apple engineer: built tools and frameworks for developers. Now building tools and frameworks for agents. One breath. Then the field starts with prompt engineering.",
+    render: () => `
+      <div class="slide" style="max-width:980px;">
+        <div class="eyebrow">Speaker</div>
+        <h1 class="hero-title" style="margin-top:14px;margin-bottom:12px;">Shashi Jagtap</h1>
+        <p class="lead">Founder, Superagentic AI · Ex-Apple Engineer</p>
+        <div class="grid-2">
+          <div class="card framed"><h3>Developer Tools</h3><p>Built tools and frameworks for developers.</p></div>
+          <div class="card inverted"><h3>Agent Tools</h3><p>Now building tools and frameworks for agents.</p></div>
         </div>
       </div>
     `
@@ -66,7 +81,7 @@ const SLIDES = [
   {
     id: "prompt-engineering",
     title: "Prompt Engineering",
-    time: "0:45 to 2:00",
+    time: "1:15 to 2:15",
     notes: "The original craft. You sit in the chat and write every turn: who the model is, the one job, and the shape of the answer. Examples when the form matters. The only point of this slide: the human held the pen. Stay under a minute.",
     render: () => `
       <div class="slide">
