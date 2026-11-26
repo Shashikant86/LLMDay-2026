@@ -425,7 +425,7 @@ a.pill:hover {
 /* Interactive Era Timeline */
 .era-tabs {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -463,10 +463,10 @@ a.pill:hover {
 
 .era-slope {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
   align-items: end;
-  height: 64px;
+  height: 78px;
   margin: 8px 0 12px;
 }
 

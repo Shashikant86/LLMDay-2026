@@ -10,6 +10,7 @@ const ERAS = [
   { short: "Harness", side: "you", who: "Engineer", line: "The engineer sets the limits before the run." },
   { short: "Loop", side: "it", who: "Loop", line: "The loop writes the next action." },
   { short: "Swarms", side: "it", who: "Router", line: "A router writes the worker brief." },
+  { short: "Factory", side: "it", who: "Agent", line: "An agent runs the native software lifecycle." },
   { short: "Recursive", side: "it", who: "Model", line: "The model slices the prompt and calls itself." }
 ];
 
@@ -46,7 +47,7 @@ const SLIDES = [
     id: "title",
     title: "Recursive Prompt Engineering",
     time: "0:00 to 0:45",
-    notes: "Do not open on the thesis. The title is the destination. Walk the field first: prompt engineering, context engineering, harness engineering, loop engineering, agent swarms. Then context degradation, the Recursive Language Models paper, the call pattern, then recursive prompting and the stricter techniques. Ask who has written a prompt today only if the room is cold. Stay under a minute.",
+    notes: "Do not open on the thesis. The title is the destination. Walk the field first: prompt engineering, context engineering, harness engineering, loop engineering, agent swarms, then the software factory. Then context degradation, the Recursive Language Models paper, the call pattern, then recursive prompting and the stricter techniques. Ask who has written a prompt today only if the room is cold. Stay under a minute.",
     render: () => `
       <div class="slide" style="max-width:980px;">
         <div class="eyebrow">LLMDAY + PROMPT ENGINEERING LONDON</div>
@@ -138,7 +139,7 @@ const SLIDES = [
     id: "agent-swarms",
     title: "Agent Swarms",
     time: "5:45 to 7:15",
-    notes: "A swarm is not a bigger loop. Events arrive. One router writes a brief. Workers run in isolated sessions and do not speak to you. Concrete case, say it as preliminary and move on. DeepSeek Harness super-agent, 31 Oct 2026. Their scheduling test, five runs, timer workload: system p50 12.4 min versus about 20.4 min for a single session that never delegated. The workers themselves are not 40% faster. One router, isolated workers. This is a different mechanism from a recursive language model. That concept is two slides away.",
+    notes: "A swarm is not a bigger loop. Events arrive. One router writes a brief. Workers run in isolated sessions and do not speak to you. Concrete case, say it as preliminary and move on. DeepSeek Harness super-agent, 31 Oct 2026. Their scheduling test, five runs, timer workload: system p50 12.4 min versus about 20.4 min for a single session that never delegated. The workers themselves are not 40% faster. One router, isolated workers. The next slide is the software factory. The recursive language model comes after the map.",
     render: () => `
       <div class="slide">
         <div class="eyebrow">Discipline · 05</div>
@@ -153,10 +154,28 @@ const SLIDES = [
     `
   },
   {
+    id: "software-factory",
+    title: "Software Factory",
+    time: "7:15 to 8:00",
+    notes: "Say it plainly. There is no single definition of a software factory. Everyone has their own. In this talk, the short version is an agent on the native SDLC: specify the work, run it, and verify it. Do not contrast it with swarms here. Stay under a minute.",
+    render: () => `
+      <div class="slide">
+        <div class="eyebrow">Discipline · 06</div>
+        <h2 class="slide-title">Software Factory</h2>
+        <p class="lead">Everyone has their own definition. In short, an agent on the native SDLC.</p>
+        <div class="grid-3">
+          <div class="card framed"><h3>Many Definitions</h3><p>Teams name the same idea differently.</p></div>
+          <div class="card inverted"><h3>Agent-Native SDLC</h3><p>An agent operates on the software lifecycle.</p></div>
+          <div class="card framed"><h3>Specify, Run, Verify</h3><p>The lifecycle stays the unit of work.</p></div>
+        </div>
+      </div>
+    `
+  },
+  {
     id: "eras",
     title: "Field Progression",
-    time: "7:15 to 8:15",
-    notes: "Recap only. Do not re-teach. Amber means you. Blue means the system. Click Prompt, Context, Harness: you hold the pen or the scaffold. Click Loop, then Swarms: the system writes the next action or the worker brief. Land on Recursive and do not explain it. Say that this is the next slide. The slope is the field we just walked.",
+    time: "8:00 to 8:45",
+    notes: "Recap only. Do not re-teach. Amber means you. Blue means the system. Click Prompt, Context, Harness: you hold the pen or the scaffold. Click Loop, then Swarms: the system writes the next action or the worker brief. Click Factory: an agent on the native SDLC. Land on Recursive and do not explain it. The slope is the field we just walked.",
     render: () => `
       <div class="slide">
         <h2 class="slide-title">Field Progression</h2>
@@ -197,7 +216,7 @@ const SLIDES = [
   {
     id: "context-rot",
     title: "Context Degradation",
-    time: "8:15 to 9:00",
+    time: "8:45 to 9:30",
     notes: "This is the limit of context engineering, and the reason for the next slide. Click Small, then Noisy, then Full. Adding tools and logs degrades reasoning and burns cost. The flat prompt fails before the window is full. Say: so keep the corpus outside the prompt. Do not explain how yet.",
     render: () => `
       <div class="slide">
